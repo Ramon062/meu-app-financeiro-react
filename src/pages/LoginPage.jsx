@@ -2,6 +2,27 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
+function getFirebaseAuthErrorMessage(firebaseError) {
+  const errorCode = firebaseError?.code;
+
+  switch (errorCode) {
+    case 'auth/invalid-api-key':
+      return 'Configuração Firebase inválida no ambiente. Verifique as variáveis VITE_FIREBASE_* no Vercel.';
+    case 'auth/configuration-not-found':
+      return 'Configuração de autenticação não encontrada no Firebase. Verifique o provider Google.';
+    case 'auth/operation-not-allowed':
+      return 'Login com Google desativado no Firebase Authentication.';
+    case 'auth/unauthorized-domain':
+      return 'Domínio não autorizado no Firebase Auth. Adicione seu domínio do Vercel em Authentication > Settings > Authorized domains.';
+    case 'auth/popup-blocked':
+      return 'Popup bloqueado pelo navegador. Libere popups e tente novamente.';
+    case 'auth/popup-closed-by-user':
+      return 'Janela de login fechada antes da conclusão.';
+    default:
+      return 'Falha no login com Google.';
+  }
+}
+
 export default function LoginPage() {
   const navigate = useNavigate();
   const { login, loginWithGoogle } = useAuth();
@@ -32,8 +53,8 @@ export default function LoginPage() {
     try {
       await loginWithGoogle();
       navigate('/dashboard');
-    } catch {
-      setError('Falha no login com Google.');
+    } catch (firebaseError) {
+      setError(getFirebaseAuthErrorMessage(firebaseError));
     } finally {
       setLoading(false);
     }
