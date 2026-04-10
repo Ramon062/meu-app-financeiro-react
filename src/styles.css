@@ -296,6 +296,28 @@ button.danger:hover,
   box-shadow: var(--shadow);
 }
 
+.access-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 0.7rem;
+  background: var(--surface);
+  padding: 1rem;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+.access-columns-actions {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) auto auto;
+  gap: 0.7rem;
+  align-items: center;
+}
+
+.access-columns-actions button {
+  white-space: nowrap;
+}
+
 .table-wrapper {
   overflow-x: auto;
   background: var(--surface);
@@ -385,5 +407,9 @@ th {
 
   .container {
     padding: 1rem;
+  }
+
+  .access-columns-actions {
+    grid-template-columns: 1fr;
   }
 }

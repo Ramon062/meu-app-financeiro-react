@@ -6,6 +6,7 @@ import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
 import ExpensesPage from './pages/ExpensesPage';
 import SuggestionsPage from './pages/SuggestionsPage';
+import AccessControlPage from './pages/AccessControlPage';
 
 function MainLayout({ children }) {
   const { currentUser, logout } = useAuth();
@@ -26,6 +27,9 @@ function MainLayout({ children }) {
           </NavLink>
           <NavLink to="/sugestoes" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
             Sugestões
+          </NavLink>
+          <NavLink to="/acessos" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
+            Acessos
           </NavLink>
           <span className="user-chip">{currentUser?.email}</span>
           <button type="button" className="button-link danger" onClick={logout}>
@@ -101,6 +105,16 @@ export default function App() {
           <ProtectedRoute>
             <MainLayout>
               <SuggestionsPage />
+            </MainLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/acessos"
+        element={
+          <ProtectedRoute>
+            <MainLayout>
+              <AccessControlPage />
             </MainLayout>
           </ProtectedRoute>
         }
